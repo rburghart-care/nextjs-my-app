@@ -153,7 +153,7 @@ function convertCreditCardList(methods?: types.StripeCreditCardPaymentMethod[] |
     return methods.map(convertCreditCardMethod);
 }
 
-function convertPaymentDetails2(details: types.PayDetailGet2Success): StripePaymentDetails2 {
+function convertPaymentDetails2(details: types.PayDetail2GetSuccess): StripePaymentDetails2 {
     return {
         kind: 'StripePaymentDetails2',
         customerId: details.customerId,
