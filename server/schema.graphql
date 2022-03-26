@@ -1,0 +1,64 @@
+type ErrorResponse {
+    message: String!
+}
+
+enum PaymentMethodType {
+    CREDIT_CARD
+    PAYPAL
+    APPLE_PAY
+}
+
+interface StripePaymentMethod {
+    id: ID!
+    description: String!
+    isDefault: Boolean!
+    method: PaymentMethodType!
+}
+
+type StripeCreditCardPaymentMethod implements StripePaymentMethod {
+    id: ID!
+    description: String!
+    isDefault: Boolean!
+    method: PaymentMethodType!
+    zip: String!
+    givenName: String!
+    familyName: String!
+    cvv: String!
+}
+
+type StripePayPalPaymentMethod implements StripePaymentMethod {
+    id: ID!
+    description: String!
+    isDefault: Boolean!
+    method: PaymentMethodType!
+    email: String!
+}
+
+type StripeApplePayPaymentMethod implements StripePaymentMethod {
+    id: ID!
+    description: String!
+    isDefault: Boolean!
+    method: PaymentMethodType!
+    appleId: String!
+}
+
+type PayDetailGetSuccess {
+    customerId: ID!
+    methods: [StripePaymentMethod!]
+}
+
+type PayDetail2GetSuccess {
+    customerId: ID!
+    creditCard: [StripeCreditCardPaymentMethod!]
+    paypal: [StripePayPalPaymentMethod!]
+    applePay: [StripeApplePayPaymentMethod!]
+}
+
+union PayDetailGetResponse = PayDetailGetSuccess | ErrorResponse
+
+union PayDetail2GetResponse = PayDetail2GetSuccess | ErrorResponse
+
+type Query {
+    payDetailGet: PayDetailGetResponse!
+    payDetail2Get: PayDetail2GetResponse!
+}
